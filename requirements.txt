@@ -1,0 +1,6 @@
+pandas
+tqdm
+selenium
+beautifulsoup4
+sentence-transformers
+elasticsearch
