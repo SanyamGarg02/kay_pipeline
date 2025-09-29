@@ -4,9 +4,9 @@ __pycache__/
 *.pyo
 
 # Ignore local data
-*.csv
-*.ndjson
-*.json
+# *.csv
+# *.ndjson
+# *.json
 
 
 # Ignore credentials
