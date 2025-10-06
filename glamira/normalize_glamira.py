@@ -2,8 +2,8 @@ import csv
 import json
 import re
 
-INPUT_CSV = "glamira/poc_glamira_final.csv"
-OUTPUT_CSV = "glamira/poc_glamira_normalized.csv"
+INPUT_CSV = "glamira/poc_glamira_final1.csv"
+OUTPUT_CSV = "glamira/poc_glamira_normalized1.csv"
 
 
 NORMALIZED_FIELDS = [

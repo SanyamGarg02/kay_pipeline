@@ -53,7 +53,7 @@ def init_driver():
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-extensions")
     options.add_argument("--no-sandbox")
-    # options.add_argument("--headless=new")  # comment this if you want to SEE Chrome
+    options.add_argument("--headless=new")  # comment this if you want to SEE Chrome
     driver = webdriver.Chrome(options=options)
     return driver
 
@@ -274,7 +274,7 @@ def process_csv(csv_file, output_file, failed_file):
     os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
     os.makedirs(os.path.dirname(failed_file) or ".", exist_ok=True)
 
-    with open(output_file, "a", newline="", encoding="utf-8") as out_f, \
+    with open(output_file, "w", newline="", encoding="utf-8") as out_f, \
          open(failed_file, "w", newline="", encoding="utf-8") as fail_f:
 
         writer = csv.DictWriter(out_f, fieldnames=FIELDNAMES)

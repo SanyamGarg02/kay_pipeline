@@ -7,7 +7,7 @@ from playwright.async_api import async_playwright
 # =====================
 # CONFIG
 # =====================
-OUTPUT_FILE = "glamira/glamira_products_list.csv"
+OUTPUT_FILE = "glamira/glamira_products_list1.csv"
 MAX_PRODUCTS_PER_CATEGORY = 200  # limit per category
 
 # CSS selectors for scraping

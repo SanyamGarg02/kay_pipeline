@@ -1,6 +1,11 @@
 import subprocess
 import sys
 import argparse
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
 
 def run_step(cmd, step_name):
     print(f"\n🚀 Running step: {step_name}")
@@ -13,6 +18,7 @@ def run_step(cmd, step_name):
 
 def main():
     parser = argparse.ArgumentParser(description="End-to-end competitor data pipeline")
+    
     parser.add_argument(
         "--limit",
         type=int,
@@ -22,50 +28,56 @@ def main():
     parser.add_argument(
         "--index",
         type=str,
-        default="competitor_offers_test",
+        default="competitor_offers_test",    # updated for actual index
         help="Elasticsearch index to upload to"
     )
     parser.add_argument(
         "--password",
         type=str,
-        required=True,
-        help="Elasticsearch password for 'elastic' user"
+        default=None,
+        help="Elasticsearch password for 'elastic' user (optional, fallback to .env)"
     )
     parser.add_argument(
         "--start-from",
         type=str,
-        choices=["urls", "details", "normalize", "embeddings"],
+        choices=["urls", "details", "normalize","embeddings"],
         default="urls",
         help="Step to start pipeline from (default: urls)"
     )
     args = parser.parse_args()
 
+    # Use password from .env if not provided via CLI
+    es_password = args.password or os.getenv("ES_PASSWORD")
+    if not es_password:
+        print("❌ Elasticsearch password not provided. Set it via --password or in .env")
+        sys.exit(1)
+
     # Step 1: Scrape URLs
     if args.start_from == "urls":
-        cmd = [sys.executable, "urls_scraping.py"]
-        if args.limit is not None:   # only pass if provided
+        cmd = [sys.executable, "glamira/urls_scraping.py"]
+        if args.limit is not None:
             cmd += ["--limit", str(args.limit)]
         run_step(cmd, "Scraping product URLs")
 
     # Step 2: Fetch details
     if args.start_from in ["urls", "details"]:
-        run_step([sys.executable, "details_from_urls.py"], "Fetching product details")
+        run_step([sys.executable, "glamira/details_from_urls.py"], "Fetching product details")
 
     # Step 3: Normalize dataset
     if args.start_from in ["urls", "details", "normalize"]:
-        run_step([sys.executable, "normalize_dataset.py"], "Normalizing product dataset")
+        run_step([sys.executable, "glamira/normalize_glamira.py"], "Normalizing product dataset")
 
-    # Step 4: Prepare embeddings + upload to ES
+    # Step 4: Prepare Glamira embeddings + upload to ES
     if args.start_from in ["urls", "details", "normalize", "embeddings"]:
         run_step(
             [
-                sys.executable, "prepare_embeddings.py",
-                "--input", "poc_kay_normalized.csv",
-                "--output", f"{args.index}.ndjson",
+                sys.executable, "glamira/prepare_embeddings.py",
+                "--input", "glamira/poc_glamira_normalized1.csv",
+                "--output", f"glamira/{args.index}_glamira.ndjson",
                 "--index", args.index,
-                "--password", args.password
+                "--password", es_password,
             ],
-            "Preparing embeddings + uploading to Elasticsearch"
+            "Preparing Glamira embeddings + uploading to Elasticsearch"
         )
 
     print("\n🎉 Pipeline completed successfully!")

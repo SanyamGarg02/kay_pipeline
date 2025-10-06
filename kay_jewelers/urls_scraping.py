@@ -96,7 +96,7 @@ def scrape(limit: int):
         print(f"✅ Finished category {cat_id} with {scraped_count} products (>= ${MIN_PRICE})")
 
     # Save to CSV
-    with open("products_list.csv", "w", newline="", encoding="utf-8") as f:
+    with open("kay_jewelers/products_list.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["name", "price", "url"])
         writer.writeheader()
         writer.writerows(all_products.values())

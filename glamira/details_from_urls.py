@@ -15,8 +15,8 @@ import os
 
 # --- CONFIG ---
 INPUT_CSV = "glamira/glamira_products_list.csv"      # input file with product URLs
-OUTPUT_CSV = "glamira/poc_glamira_final.csv"         # main results file
-FAILED_CSV = "glamira/failed_urls.csv"               # failed URLs will be retried here
+OUTPUT_CSV = "glamira/poc_glamira_final1.csv"         # main results file
+FAILED_CSV = "glamira/failed_urls1.csv"               # failed URLs will be retried here
 MAX_RETRIES = 3                              # per URL
 NUM_THREADS = 3                              # adjust based on machine
 BATCH_SIZE = 30                              # refresh driver after this many
@@ -131,7 +131,7 @@ def process_csv(csv_file, output_file, failed_file):
     for row in reader:
         task_queue.put(row)
 
-    with open(output_file, "a", newline="", encoding="utf-8") as out_f, \
+    with open(output_file, "w", newline="", encoding="utf-8") as out_f, \
          open(failed_file, "w", newline="", encoding="utf-8") as fail_f:  # overwrite fails
 
         fieldnames = ["name", "price", "url", "details"]

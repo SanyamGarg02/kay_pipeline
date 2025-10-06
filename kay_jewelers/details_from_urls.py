@@ -14,9 +14,9 @@ from tqdm import tqdm
 import os
 
 # --- CONFIG ---
-INPUT_CSV = "products_list.csv"              # input file with product URLs
-OUTPUT_CSV = "poc_kay_final.csv"             # main results file
-FAILED_CSV = "failed_urls.csv"               # failed URLs will be retried here
+INPUT_CSV = "kay_jewelers/products_list.csv"              # input file with product URLs
+OUTPUT_CSV = "kay_jewelers/poc_kay_final.csv"             # main results file
+FAILED_CSV = "kay_jewelers/failed_urls.csv"               # failed URLs will be retried here
 MAX_RETRIES = 3                              # per URL
 NUM_THREADS = 3                              # adjust based on machine
 BATCH_SIZE = 30                              # refresh driver after this many
@@ -39,7 +39,7 @@ def init_driver():
     options.add_argument("--start-maximized")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
-    # options.add_argument("--headless=new")
+    options.add_argument("--headless=new")
     driver = webdriver.Chrome(options=options)
     return driver
 
